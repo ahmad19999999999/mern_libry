@@ -1,0 +1,33 @@
+.no-books-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-books-content {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.no-books-icon {
+  font-size: 3rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.no-books-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.no-books-message {
+  color: #666;
+  max-width: 400px;
+}

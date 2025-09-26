@@ -1,0 +1,70 @@
+/* Overlay يغطي كامل الشاشة */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* يغطي كامل الشاشة */
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center; /* يوضع المودال في وسط الشاشة */
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* محتوى المودال */
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;         /* ليكون مرن */
+  max-width: 400px;    /* لا يتجاوز 400px */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-sizing: border-box;
+}
+.modal-content h2 {
+  text-align: center;        
+  color: #2c3e50;            
+  font-weight: 700;           
+  margin-bottom: 1.5rem;     
+  font-size: 1.5rem;        
+}
+
+
+/* زر الإلغاء */
+.authBtn.cancel {
+  background-color: #ccc;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+/* أزرار المودال */
+.authBtn {
+  width: 100%;
+   background: #3498db;
+  color: var(--text-primary);
+  border: none;
+  padding: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.authBtn:hover {
+   background: #2980b9;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 95%; 
+    padding: 1.5rem;
+  }
+
+  .authBtn {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
