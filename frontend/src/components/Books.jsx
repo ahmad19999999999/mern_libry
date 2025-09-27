@@ -5,37 +5,45 @@ import BorrowingModal from "./BorrowingModal";
 import ReturnModal from "./ReturnModal";
 import "../Style/componentStyles/Book.css";
 
-const BookCard = ({ book }) => {
+const BookCard = ({ book, onUpdateBook }) => {
   const { user: currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [localBorrowingBy, setLocalBorrowingBy] = useState(book.borrowingBy);
- 
 
   useEffect(() => {
     setLocalBorrowingBy(book.borrowingBy);
   }, [book.borrowingBy]);
 
-  
   const handleButtonClick = () => {
     if (!currentUser) return navigate("/login");
 
-    if (localBorrowingBy === currentUser._id) setIsReturnModalOpen(true);
-    else if (!localBorrowingBy) {
-      setLocalBorrowingBy(currentUser._id); 
+    if (localBorrowingBy === currentUser._id) {
+      setIsReturnModalOpen(true);
+    } else if (!localBorrowingBy) {
       setIsBorrowModalOpen(true);
     }
   };
 
-  const handleBorrowSuccess = () => setIsBorrowModalOpen(false);
-  const handleReturnSuccess = () => {
-    setLocalBorrowingBy(null);
-    setIsReturnModalOpen(false);
+ 
+  const handleBorrowClose = (isSuccess) => {
+    setIsBorrowModalOpen(false);
+    if (isSuccess) {
+      setLocalBorrowingBy(currentUser._id);
+      onUpdateBook?.({ ...book, borrowingBy: currentUser._id });
+    }
   };
 
-   
+  const handleReturnClose = (isSuccess) => {
+    setIsReturnModalOpen(false);
+    if (isSuccess) {
+      setLocalBorrowingBy(null);
+      onUpdateBook?.({ ...book, borrowingBy: null });
+    }
+  };
+
   const getBookStatus = () => {
     if (currentUser && localBorrowingBy === currentUser._id)
       return { status: "Borrowed by you", button: "Return" };
@@ -44,7 +52,8 @@ const BookCard = ({ book }) => {
   };
 
   const { status, button } = getBookStatus();
-  const isBorrowedByOther = localBorrowingBy && localBorrowingBy !== currentUser?._id;
+  const isBorrowedByOther =
+    localBorrowingBy && localBorrowingBy !== currentUser?._id;
 
   return (
     <div className="book-card">
@@ -52,7 +61,6 @@ const BookCard = ({ book }) => {
         src={book.coverImage}
         alt={book.title}
         className="book-image-card"
-       
       />
       <div className="book-details">
         <h3 className="book-title">{book.title}</h3>
@@ -69,8 +77,12 @@ const BookCard = ({ book }) => {
         </button>
       </div>
 
-      {isBorrowModalOpen && <BorrowingModal book={book} onClose={handleBorrowSuccess} />}
-      {isReturnModalOpen && <ReturnModal book={book} onClose={handleReturnSuccess} />}
+      {isBorrowModalOpen && (
+        <BorrowingModal book={book} onClose={handleBorrowClose} />
+      )}
+      {isReturnModalOpen && (
+        <ReturnModal book={book} onClose={handleReturnClose} />
+      )}
     </div>
   );
 };

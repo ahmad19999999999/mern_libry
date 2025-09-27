@@ -20,7 +20,7 @@ const BorrowingModal = ({ book, onClose }) => {
     if (success) {
       toast.success("Book borrowed successfully ", { position: "top-center", autoClose: 3000 });
       dispatch(removeSuccess());
-      onClose();
+      onClose(true)
     }
   }, [error, success, dispatch, onClose]);
 
@@ -58,7 +58,7 @@ const BorrowingModal = ({ book, onClose }) => {
         <button className="authBtn" onClick={handleBorrow} disabled={loading}>
           Borrow
         </button>
-        <button className="authBtn" onClick={onClose}>Cancel</button>
+        <button className="authBtn" onClick={() => onClose(false)}>Cancel</button>
       </div>
     </div>,
     document.body 

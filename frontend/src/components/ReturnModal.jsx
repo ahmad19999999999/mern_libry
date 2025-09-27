@@ -19,7 +19,7 @@ const ReturnModal = ({ book, onClose }) => {
     if (success) {
       toast.success("Book returned successfully", { position: "top-center", autoClose: 3000 });
       dispatch(removeSuccess());
-      onClose();
+      onClose(true)
     }
   }, [error, success, dispatch, onClose]);
 
@@ -38,7 +38,7 @@ const ReturnModal = ({ book, onClose }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>Return Book</h2>
-        <form onSubmit={handleReturn}>
+        <form>
           <div className="input-group">
             <label>Title</label>
             <input type="text" value={book?.title || ""} readOnly />
@@ -59,10 +59,10 @@ const ReturnModal = ({ book, onClose }) => {
             <input type="text" value={new Date().toLocaleDateString()} readOnly />
           </div>
 
-          <button type="submit" className="authBtn" disabled={loading}>
+          <button type="submit" className="authBtn" disabled={loading} onClick={handleReturn}>
             {loading ? "Processing..." : "Confirm Return"}
           </button>
-          <button type="button" className="authBtn" onClick={onClose}>
+          <button type="button" className="authBtn" onClick={() => onClose(false)}>
             Cancel
           </button>
         </form>
