@@ -31,7 +31,7 @@ export const getbookdetails = createAsyncThunk(
       const link = `http://localhost:3000/api/v1/book/${id}`;
       const { data } = await axios.get(link, { withCredentials: true }); 
       console.log('response data', data);
-      return data; // ترجع البيانات مباشرة
+      return data; 
     } catch (error) {
       const message =
         error.response?.data?.message || error.message || 'An error occurred';
@@ -49,7 +49,7 @@ export const getbookdetails = createAsyncThunk(
 const productSlice = createSlice({
   name: 'books',
   initialState: {
-    books: [],
+    books:[],
     bookCount: 0,
     loading: false,
     error: null,

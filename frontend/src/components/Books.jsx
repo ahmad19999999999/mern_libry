@@ -19,15 +19,10 @@ const BookCard = ({ book, onUpdateBook }) => {
 
   const handleButtonClick = () => {
     if (!currentUser) return navigate("/login");
-
-    if (localBorrowingBy === currentUser._id) {
-      setIsReturnModalOpen(true);
-    } else if (!localBorrowingBy) {
-      setIsBorrowModalOpen(true);
-    }
+    if (localBorrowingBy === currentUser._id) setIsReturnModalOpen(true);
+    else if (!localBorrowingBy) setIsBorrowModalOpen(true);
   };
 
- 
   const handleBorrowClose = (isSuccess) => {
     setIsBorrowModalOpen(false);
     if (isSuccess) {
@@ -51,38 +46,33 @@ const BookCard = ({ book, onUpdateBook }) => {
     return { status: "Borrowed by another user", button: "Borrowed" };
   };
 
+  const getButtonClass = () => {
+    if (localBorrowingBy === currentUser?._id) return "borrowed-by-you";
+    if (!localBorrowingBy) return "available";
+    return "disabled";
+  };
+
   const { status, button } = getBookStatus();
-  const isBorrowedByOther =
-    localBorrowingBy && localBorrowingBy !== currentUser?._id;
+  const isBorrowedByOther = localBorrowingBy && localBorrowingBy !== currentUser?._id;
 
   return (
     <div className="book-card">
-      <img
-        src={book.coverImage}
-        alt={book.title}
-        className="book-image-card"
-      />
+      <img src={book.coverImage} alt={book.title} className="book-image-card" />
       <div className="book-details">
         <h3 className="book-title">{book.title}</h3>
         <p className="book-description"><strong>Author:</strong> {book.author}</p>
         <p className="book-description"><strong>ISBN:</strong> {book.isbn}</p>
         <p className="book-description"><strong>Status:</strong> {status}</p>
-
         <button
-          className={`add-to-borrow ${isBorrowedByOther ? "disabled" : ""}`}
+          className={`add-to-borrow ${getButtonClass()}`}
           onClick={handleButtonClick}
           disabled={isBorrowedByOther}
         >
           {button}
         </button>
       </div>
-
-      {isBorrowModalOpen && (
-        <BorrowingModal book={book} onClose={handleBorrowClose} />
-      )}
-      {isReturnModalOpen && (
-        <ReturnModal book={book} onClose={handleReturnClose} />
-      )}
+      {isBorrowModalOpen && <BorrowingModal book={book} onClose={handleBorrowClose} />}
+      {isReturnModalOpen && <ReturnModal book={book} onClose={handleReturnClose} />}
     </div>
   );
 };

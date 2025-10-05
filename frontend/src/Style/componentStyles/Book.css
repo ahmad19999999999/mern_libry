@@ -103,3 +103,25 @@
 .add-to-borrow:hover {
   background-color: var(--primary-dark);
 }
+
+.add-to-borrow.available {
+  background-color: #28a745;
+}
+
+.add-to-borrow.available:hover {
+  background-color: #218838;
+}
+
+.add-to-borrow.borrowed-by-you {
+  background-color: #007bff;
+}
+
+.add-to-borrow.borrowed-by-you:hover {
+  background-color: #0069d9;
+}
+
+.add-to-borrow.disabled {
+  background-color: red;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
